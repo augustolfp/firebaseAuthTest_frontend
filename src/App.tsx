@@ -4,11 +4,13 @@ import RecipesPage from "./components/RecipesPage";
 import SignInPage from "./components/SignInPage";
 import SignUpPage from "./components/SignUpPage";
 import { AuthProvider } from "./contexts/AuthContext";
+import NavBar from "./components/NavBar";
 
 function App() {
     return (
         <AuthProvider>
             <Router>
+                <NavBar />
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/sign-in" element={<SignInPage />} />
