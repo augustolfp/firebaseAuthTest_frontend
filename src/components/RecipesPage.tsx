@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../config/axios";
-import { useAuth } from "../contexts/AuthContext";
+import auth from "../config/firebase";
 
 export default function RecipesPage() {
     type Recipe = {
@@ -9,14 +9,23 @@ export default function RecipesPage() {
     };
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState<Recipe[] | []>([]);
-    const { currentUser } = useAuth();
 
     useEffect(() => {
-        console.log(currentUser);
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await api.get("/recipes");
+                const user = auth.currentUser;
+
+                const token = user && (await user.getIdToken());
+
+                const payloadHeader = {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+
+                const response = await api.get("/recipes", payloadHeader);
                 setData(response.data);
             } catch (error) {
                 console.log(error);
