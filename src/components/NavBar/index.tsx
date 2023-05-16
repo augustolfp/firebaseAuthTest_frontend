@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -15,13 +16,21 @@ export default function NavBar() {
     }
 
     return (
-        <>
+        <Container>
             {currentUser ? (
                 <div>Current user: {currentUser.email}</div>
             ) : (
                 <div>No logged user!</div>
             )}
-            <button onClick={handleLogout}>Logout</button>
-        </>
+            {currentUser && <button onClick={handleLogout}>Logout</button>}
+        </Container>
     );
 }
+
+const Container = styled.div`
+    display: flex;
+    margin: 0;
+    padding: 8px;
+    justify-content: space-between;
+    background-color: pink;
+`;
