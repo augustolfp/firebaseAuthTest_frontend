@@ -1,18 +1,27 @@
 import { useState } from "react";
 import SignInForm from "./SignInForm";
+import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function SignInPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
     async function handleFormSubmit(e: any) {
         e.preventDefault();
-        const body = {
-            email: email,
-            password: password,
-        };
-        console.log(body);
+
+        try {
+            setLoading(true);
+            await login(email, password);
+            navigate("/recipes");
+        } catch (err) {
+            console.log(err);
+        }
+
+        setLoading(false);
     }
 
     return (
