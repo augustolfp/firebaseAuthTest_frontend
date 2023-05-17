@@ -5,6 +5,7 @@ import SignInPage from "./components/SignInPage";
 import SignUpPage from "./components/SignUpPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import NavBar from "./components/NavBar";
+import WithPrivateRoute from "./utils/WithPrivateRoute";
 
 function App() {
     return (
@@ -15,7 +16,14 @@ function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/sign-in" element={<SignInPage />} />
                     <Route path="/sign-up" element={<SignUpPage />} />
-                    <Route path="/recipes" element={<RecipesPage />} />
+                    <Route
+                        path="/recipes"
+                        element={
+                            <WithPrivateRoute>
+                                <RecipesPage />
+                            </WithPrivateRoute>
+                        }
+                    />
                 </Routes>
             </Router>
         </AuthProvider>
