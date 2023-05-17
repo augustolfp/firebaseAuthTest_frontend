@@ -7,7 +7,7 @@ export default function SignInPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const { login } = useAuth();
+    const { login, googleLogin } = useAuth();
     const navigate = useNavigate();
 
     async function handleFormSubmit(e: any) {
@@ -24,6 +24,17 @@ export default function SignInPage() {
         setLoading(false);
     }
 
+    async function handleGoogleSubmit(e: any) {
+        e.preventDefault();
+
+        try {
+            await googleLogin();
+            navigate("/recipes");
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <>
             <div>Welcome to the Sign In page!</div>
@@ -36,6 +47,7 @@ export default function SignInPage() {
                 loading={loading}
                 handleFormSubmit={handleFormSubmit}
             />
+            <button onClick={handleGoogleSubmit}>Login with google</button>
         </>
     );
 }
